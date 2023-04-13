@@ -44,23 +44,19 @@ const favs = document.getElementById("favs");
  */
 
 // Your code goes here
+
 function updateCollections(id, direction) {
   const elementId = document.getElementById(id);
-  const newParent = direction === "toMain" ? main : favs;
 
+  const icon = elementId.querySelector(".fa-solid");
   const heart = "fa-heart-circle-plus";
   const crackHeart = "fa-heart-crack";
 
-  const icon = elementId.querySelector(".fa-solid");
+  direction === "toMain"
+    ? (icon.classList.remove(crackHeart), icon.classList.add(heart))
+    : (icon.classList.remove(heart), icon.classList.add(crackHeart));
 
-  if (direction === "toMain") {
-    icon.classList.remove(crackHeart);
-    icon.classList.add(heart);
-  } else {
-    icon.classList.remove(heart);
-    icon.classList.add(crackHeart);
-  }
-
+  const newParent = direction === "toMain" ? main : favs;
   newParent.appendChild(elementId);
 }
 
@@ -85,6 +81,5 @@ for (let i = 0; i < allItems.length; i++) {
     const itemId = this.id;
     const direction = this.parentElement.id === "main" ? "toFavs" : "toMain";
     updateCollections(itemId, direction);
-    console.log(itemId, direction);
   });
 }
