@@ -38,3 +38,40 @@
  */
 
 // Your code goes here...
+
+const container = document.querySelector(".cardsContainer");
+const cards = document.querySelectorAll(".card");
+const lsFavoritesData = localStorage.getItem("favorites");
+
+if (localStorage.getItem("favorites") === null) {
+  localStorage.setItem("favorites", "");
+}
+
+cards.forEach((card) => {
+  if (lsFavoritesData != null && lsFavoritesData.includes(card.id)) {
+    document.getElementById(card.id).style.backgroundColor = "red";
+  }
+});
+
+const boxClicked = (e) => {
+  const item = e.target;
+  const clickedItem = item.id;
+  let storageData = localStorage.getItem("favorites");
+
+  if (Array.from(item.classList).includes("card")) {
+    if (storageData.includes(`${clickedItem}`)) {
+      const storageArr = localStorage.getItem("favorites").split(",");
+      storageArr.splice(storageArr.indexOf(clickedItem), 1).join(",");
+      item.style.backgroundColor = "";
+      localStorage.setItem("favorites", storageArr);
+    } else {
+      item.style.backgroundColor = "red";
+      storageData === ""
+        ? (storageData += `${clickedItem}`)
+        : (storageData += `,${clickedItem}`);
+      localStorage.setItem("favorites", storageData);
+    }
+  }
+};
+
+container.addEventListener("click", boxClicked);
